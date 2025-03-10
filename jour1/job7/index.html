@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vérification du jour travaillé</title>
+</head>
+<body>
+
+    <h1>Vérification du jour travaillé</h1>
+
+    <label for="dateInput">Entrez une date (format: yyyy-mm-dd) :</label>
+    <input type="date" id="dateInput">
+    <button onclick="verifierJour()">Vérifier</button>
+
+    <div id="result"></div>
+
+    <script>
+        function jourTravaille(date) {
+            // Liste des jours fériés en 2024
+            const joursFeries2024 = [
+                new Date('2024-01-01'), // Jour de l'An
+                new Date('2024-04-01'), // Lundi de Pâques
+                new Date('2024-05-01'), // Fête du Travail
+                new Date('2024-05-08'), // Victoire 1945
+                new Date('2024-07-14'), // Fête Nationale
+                new Date('2024-08-15'), // Assomption
+                new Date('2024-11-01'), // Toussaint
+                new Date('2024-12-25')  // Noël
+            ];
+
+            // Vérifier si la date est un jour férié
+            for (let jourFerie of joursFeries2024) {
+                if (date.getDate() === jourFerie.getDate() &&
+                    date.getMonth() === jourFerie.getMonth() &&
+                    date.getFullYear() === jourFerie.getFullYear()) {
+                    document.getElementById('result').textContent = `Le ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} est un jour férié`;
+                    return;
+                }
+            }
+
+            // Vérifier si la date est un week-end (samedi ou dimanche)
+            if (date.getDay() === 6 || date.getDay() === 0) {
+                document.getElementById('result').textContent = `Non, ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} est un week-end`;
+            } else {
+                // Sinon, c'est un jour travaillé
+                document.getElementById('result').textContent = `Oui, ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} est un jour travaillé`;
+            }
+        }
+
+        function verifierJour() {
+            const inputDate = document.getElementById('dateInput').value;
+            if (inputDate) {
+                const date = new Date(inputDate);
+                jourTravaille(date);
+            } else {
+                document.getElementById('result').textContent = "Veuillez entrer une date valide.";
+            }
+        }
+    </script>
+
+</body>
+</html>
